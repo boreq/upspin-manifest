@@ -4,7 +4,12 @@ specified users. That way your friends will easily know which files are
 accessible to them and you only have to provide them with a single link
 to the manifest file.
 
-## Requirements
+## Installation
+
+    $ go get github.com/boreq/upspin-manifest/cmd/upspin-manifest
+
+
+## Runtime requirements
 `upspin` executable present in the `$PATH`.
 
 ## Example manifest file
