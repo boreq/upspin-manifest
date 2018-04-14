@@ -1,3 +1,4 @@
+// Package builder produces and puts the manifest files into upspin.
 package builder
 
 import (
@@ -21,6 +22,10 @@ type builder struct {
 	ups upspin.Upspin
 }
 
+// Build produces the manifest files and puts them into upspin as specified by
+// the manifest file. It accepts a map mapping usernames to accessible
+// filenames as the first argument. This will most likely be produced by the
+// parser.
 func (b *builder) Build(userFiles map[string][]string, man manifest.Manifest) error {
 	for target, manConfig := range man.Manifests {
 		var out bytes.Buffer
@@ -45,6 +50,5 @@ func (b *builder) Build(userFiles map[string][]string, man manifest.Manifest) er
 			return err
 		}
 	}
-
 	return nil
 }

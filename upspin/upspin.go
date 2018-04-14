@@ -1,3 +1,5 @@
+// Package upspin handles upspin IO. Currently this is done by directly calling
+// the upspin executable.
 package upspin
 
 import (

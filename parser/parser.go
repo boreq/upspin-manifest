@@ -1,4 +1,4 @@
-// Parser implements a parser that parses `upspin share` output.
+// Package parser parses `upspin share` output.
 package parser
 
 import (

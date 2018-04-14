@@ -1,4 +1,4 @@
-// Package main contains the main function.
+// Package main contains the main function for upspin-manifest.
 package main
 
 import (

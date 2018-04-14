@@ -1,4 +1,4 @@
-// Manifest handles manifest file encoding and decoding.
+// Package manifest handles manifest file decoding.
 package manifest
 
 import (
