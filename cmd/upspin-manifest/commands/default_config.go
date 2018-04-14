@@ -17,7 +17,13 @@ available config keys are:
 Debug
 	Specifies if the program should run in the debug mode. The program
 	running in the debug mode prints more log messages.
-	Allowed values: true or false.`,
+	Allowed values: true or false
+	Default: false
+
+UpspinExecutable
+	Specifies the path to the upspin executable.
+	Allowed values: any string
+	Default: upspin`,
 }
 
 func runDefaultConfig(c guinea.Context) error {

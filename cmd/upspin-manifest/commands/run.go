@@ -32,14 +32,14 @@ var runCmd = guinea.Command{
 }
 
 func runRun(c guinea.Context) error {
-	ups := upspin.New()
-
 	// Load the config if requested
 	if c.Options["config"].Str() != "" {
 		if err := config.Load(c.Options["config"].Str()); err != nil {
 			return err
 		}
 	}
+
+	ups := upspin.New(config.Config.UpspinExecutable)
 
 	// Load the manifest
 	log.Debug("Loading the manifest...")

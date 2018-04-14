@@ -14,12 +14,16 @@ type Upspin interface {
 	Share(path string) ([]byte, error)
 }
 
-func New() Upspin {
-	rv := &upspin{}
+func New(upspinExecutable string) Upspin {
+	rv := &upspin{
+		upspinExecutable: upspinExecutable,
+	}
 	return rv
 }
 
-type upspin struct{}
+type upspin struct {
+	upspinExecutable string
+}
 
 func (u *upspin) Put(path string, data []byte) error {
 	var stdErr bytes.Buffer
@@ -57,5 +61,5 @@ func (u *upspin) commandStdOut(cmd *exec.Cmd) ([]byte, error) {
 }
 
 func (u *upspin) createCommand(arg ...string) *exec.Cmd {
-	return exec.Command("upspin", arg...)
+	return exec.Command(u.upspinExecutable, arg...)
 }

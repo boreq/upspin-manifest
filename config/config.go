@@ -7,7 +7,8 @@ import (
 )
 
 type ConfigStruct struct {
-	Debug bool
+	Debug            bool
+	UpspinExecutable string
 }
 
 // Config points to the current config struct used by the other parts of the
@@ -17,7 +18,8 @@ var Config *ConfigStruct = Default()
 // Default returns the default config.
 func Default() *ConfigStruct {
 	conf := &ConfigStruct{
-		Debug: false,
+		Debug:            false,
+		UpspinExecutable: "upspin",
 	}
 	return conf
 }
