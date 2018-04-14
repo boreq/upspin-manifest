@@ -11,7 +11,7 @@ type Manifest struct {
 }
 
 type ManifestConfig struct {
-	Header string   `yaml:"header"`
+	Header *string  `yaml:"header"`
 	Users  []string `yaml:"users"`
 }
 

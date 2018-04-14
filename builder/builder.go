@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"fmt"
+	"bytes"
 	"github.com/boreq/upspin-manifest/manifest"
 	"github.com/boreq/upspin-manifest/upspin"
 )
@@ -22,9 +22,27 @@ type builder struct {
 }
 
 func (b *builder) Build(userFiles map[string][]string, man manifest.Manifest) error {
-	for user, files := range userFiles {
-		for _, f := range files {
-			fmt.Printf("%s %s\n", user, f)
+	for target, manConfig := range man.Manifests {
+		var out bytes.Buffer
+		if manConfig.Header != nil {
+			header, err := b.ups.Get(*manConfig.Header)
+			if err != nil {
+				return err
+			}
+			out.Write(header)
+			out.Write([]byte("\n"))
+		}
+
+		for _, user := range manConfig.Users {
+			for _, file := range userFiles[user] {
+				out.Write([]byte(file))
+				out.Write([]byte("\n"))
+			}
+		}
+
+		err := b.ups.Put(target, out.Bytes())
+		if err != nil {
+			return err
 		}
 	}
 
