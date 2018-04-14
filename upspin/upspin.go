@@ -19,6 +19,14 @@ func New() Upspin {
 type upspin struct{}
 
 func (u *upspin) Put(path string, data []byte) error {
+	in := bytes.NewBuffer(data)
+
+	cmd := u.createCommand("put", path)
+	cmd.Stdin = in
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
