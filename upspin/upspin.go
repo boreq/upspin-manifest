@@ -4,6 +4,7 @@ package upspin
 
 import (
 	"bytes"
+	"fmt"
 	"os/exec"
 )
 
@@ -21,13 +22,15 @@ func New() Upspin {
 type upspin struct{}
 
 func (u *upspin) Put(path string, data []byte) error {
+	var stdErr bytes.Buffer
 	in := bytes.NewBuffer(data)
 
 	cmd := u.createCommand("put", path)
 	cmd.Stdin = in
+	cmd.Stderr = &stdErr
 	err := cmd.Run()
 	if err != nil {
-		return err
+		return fmt.Errorf("%s: %s", err, stdErr.Bytes())
 	}
 	return nil
 }
@@ -43,13 +46,14 @@ func (u *upspin) Share(path string) ([]byte, error) {
 }
 
 func (u *upspin) commandStdOut(cmd *exec.Cmd) ([]byte, error) {
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	var stdOut, stdErr bytes.Buffer
+	cmd.Stdout = &stdOut
+	cmd.Stderr = &stdErr
 	err := cmd.Run()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("%s: %s", err, stdErr.Bytes())
 	}
-	return out.Bytes(), nil
+	return stdOut.Bytes(), nil
 }
 
 func (u *upspin) createCommand(arg ...string) *exec.Cmd {
