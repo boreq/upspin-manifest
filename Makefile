@@ -1,7 +1,8 @@
 VERSION = `git rev-parse HEAD`
 DATE = `date --iso-8601=seconds`
-LDFLAGS =  -X github.com/boreq/upspin-manifest/cmd.BuildCommit=$(VERSION)
-LDFLAGS += -X github.com/boreq/upspin-manifest/cmd.BuildDate=$(DATE)
+LDFLAGS =  -X github.com/boreq/upspin-manifest/cmd/upspin-manifest/commands.buildCommit=$(VERSION)
+LDFLAGS += -X github.com/boreq/upspin-manifest/cmd/upspin-manifest/commands.buildDate=$(DATE)
+
 
 all: build
 
