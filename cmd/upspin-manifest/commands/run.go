@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/boreq/guinea"
 	"github.com/boreq/upspin-manifest/builder"
+	"github.com/boreq/upspin-manifest/config"
 	"github.com/boreq/upspin-manifest/logging"
 	"github.com/boreq/upspin-manifest/manifest"
 	"github.com/boreq/upspin-manifest/parser"
@@ -13,11 +14,12 @@ var log = logging.GetLogger("run")
 
 var runCmd = guinea.Command{
 	Run: runRun,
-	Options: []guinea.Option{guinea.Option{
-		Name:        "config",
-		Type:        guinea.String,
-		Description: "Config file",
-	},
+	Options: []guinea.Option{
+		guinea.Option{
+			Name:        "config",
+			Type:        guinea.String,
+			Description: "Config file",
+		},
 	},
 	Arguments: []guinea.Argument{
 		guinea.Argument{
@@ -31,6 +33,13 @@ var runCmd = guinea.Command{
 
 func runRun(c guinea.Context) error {
 	ups := upspin.New()
+
+	// Load the config if requested
+	if c.Options["config"].Str() != "" {
+		if err := config.Load(c.Options["config"].Str()); err != nil {
+			return err
+		}
+	}
 
 	// Load the manifest
 	log.Debug("Loading the manifest...")
