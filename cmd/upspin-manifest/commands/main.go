@@ -21,8 +21,8 @@ var MainCmd = guinea.Command{
 		"run":            &runCmd,
 		"default_config": &defaultConfigCmd,
 	},
-	ShortDescription: "SDR plane tracking software",
-	Description:      "This software records plane tracking data collected by SDR radios.",
+	ShortDescription: "generate lists of files accesible by upspin users",
+	Description:      "Upspin manifest generates lists of files accesible by upspin users.",
 }
 
 func runMain(c guinea.Context) error {
