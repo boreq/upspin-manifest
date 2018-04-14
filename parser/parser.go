@@ -43,7 +43,7 @@ func parserStart(scanner *bufio.Scanner, data map[string][]string) (parser, erro
 func parserUsers(scanner *bufio.Scanner, data map[string][]string) (parser, error) {
 	ok := scanner.Scan()
 	if ok {
-		users := strings.Fields(scanner.Text())
+		users := strings.Fields(strings.Trim(scanner.Text(), ":"))
 		return createParserFiles(users, scanner, data), nil
 	}
 	return nil, scanner.Err()
