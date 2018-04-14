@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"github.com/boreq/guinea"
-	"github.com/boreq/upspin-manifest/main/commands"
+	"github.com/boreq/upspin-manifest/cmd/upspin-manifest/commands"
 	"os"
 )
 

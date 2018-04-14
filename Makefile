@@ -1,13 +1,13 @@
 VERSION = `git rev-parse HEAD`
 DATE = `date --iso-8601=seconds`
-LDFLAGS =  -X github.com/boreq/upspin-manifest/main/commands.buildCommit=$(VERSION)
-LDFLAGS += -X github.com/boreq/upspin-manifest/main/commands.buildDate=$(DATE)
+LDFLAGS =  -X github.com/boreq/upspin-manifest/cmd.BuildCommit=$(VERSION)
+LDFLAGS += -X github.com/boreq/upspin-manifest/cmd.BuildDate=$(DATE)
 
 all: build
 
 build:
 	mkdir -p build
-	go build -ldflags "$(LDFLAGS)" -o ./build/upspin-manifest ./main
+	go build -ldflags "$(LDFLAGS)" -o ./build/upspin-manifest ./cmd/upspin-manifest
 
 doc:
 	@echo "http://localhost:6060/pkg/github.com/boreq/upspin-manifest/"

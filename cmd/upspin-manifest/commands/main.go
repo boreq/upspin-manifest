@@ -3,10 +3,8 @@ package commands
 import (
 	"fmt"
 	"github.com/boreq/guinea"
+	"github.com/boreq/upspin-manifest/cmd"
 )
-
-var buildCommit string
-var buildDate string
 
 var MainCmd = guinea.Command{
 	Options: []guinea.Option{
@@ -27,8 +25,8 @@ var MainCmd = guinea.Command{
 
 func runMain(c guinea.Context) error {
 	if c.Options["version"].Bool() {
-		fmt.Printf("BuildCommit %s\n", buildCommit)
-		fmt.Printf("BuildDate %s\n", buildDate)
+		fmt.Printf("BuildCommit %s\n", cmd.BuildCommit)
+		fmt.Printf("BuildDate %s\n", cmd.BuildDate)
 		return nil
 	}
 	return guinea.ErrInvalidParms
