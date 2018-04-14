@@ -8,7 +8,7 @@ all: build
 
 build:
 	mkdir -p build
-	go build -ldflags "$(LDFLAGS)" -o ./build/upspin-manifest ./cmd/upspin-manifest
+	go build -ldflags "$(LDFLAGS)" -o ./build/upspin-manifest github.com/boreq/upspin-manifest/cmd/upspin-manifest
 
 doc:
 	@echo "http://localhost:6060/pkg/github.com/boreq/upspin-manifest/"
