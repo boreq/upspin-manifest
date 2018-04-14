@@ -11,8 +11,10 @@ type Manifest struct {
 }
 
 type ManifestConfig struct {
-	Header *string  `yaml:"header"`
-	Users  []string `yaml:"users"`
+	Header          *string  `yaml:"header"`
+	ListFiles       *bool    `yaml:"list_files"`
+	ListDirectories *bool    `yaml:"list_directories"`
+	Users           []string `yaml:"users"`
 }
 
 func Load(data []byte) (Manifest, error) {

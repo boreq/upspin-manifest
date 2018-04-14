@@ -3,12 +3,14 @@ package builder
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/boreq/upspin-manifest/manifest"
 	"github.com/boreq/upspin-manifest/upspin"
+	"sort"
 )
 
 type Builder interface {
-	Build(userFiles map[string][]string, man manifest.Manifest) error
+	Build(userFiles map[string][]string, userDirectories map[string][]string, man manifest.Manifest) error
 }
 
 func New(ups upspin.Upspin) Builder {
@@ -26,7 +28,7 @@ type builder struct {
 // the manifest file. It accepts a map mapping usernames to accessible
 // filenames as the first argument. This will most likely be produced by the
 // parser.
-func (b *builder) Build(userFiles map[string][]string, man manifest.Manifest) error {
+func (b *builder) Build(userFiles map[string][]string, userDirectories map[string][]string, man manifest.Manifest) error {
 	for target, manConfig := range man.Manifests {
 		var out bytes.Buffer
 		if manConfig.Header != nil {
@@ -39,9 +41,38 @@ func (b *builder) Build(userFiles map[string][]string, man manifest.Manifest) er
 		}
 
 		for _, user := range manConfig.Users {
-			for _, file := range userFiles[user] {
-				out.Write([]byte(file))
-				out.Write([]byte("\n"))
+			out.Write([]byte(fmt.Sprintf("%s:", user)))
+
+			// Directories
+			if manConfig.ListDirectories == nil || *manConfig.ListDirectories {
+				directories := userDirectories[user]
+				if len(directories) > 0 {
+					out.Write([]byte("\n"))
+				}
+
+				sort.Slice(directories, func(i, j int) bool { return directories[i] < directories[j] })
+
+				for _, directory := range directories {
+					out.Write([]byte("\t"))
+					out.Write([]byte(directory))
+					out.Write([]byte("\n"))
+				}
+			}
+
+			// Files
+			if manConfig.ListFiles == nil || *manConfig.ListFiles {
+				files := userFiles[user]
+				if len(files) > 0 {
+					out.Write([]byte("\n"))
+				}
+
+				sort.Slice(files, func(i, j int) bool { return files[i] < files[j] })
+
+				for _, file := range files {
+					out.Write([]byte("\t"))
+					out.Write([]byte(file))
+					out.Write([]byte("\n"))
+				}
 			}
 		}
 

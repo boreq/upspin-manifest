@@ -4,26 +4,45 @@ package parser
 import (
 	"bufio"
 	"bytes"
+	"path"
 	"strings"
 )
 
 // Parse parses the `upspin share` output. maps a list of files that can be
 // accessed by each user to users.
-func Parse(data []byte) (map[string][]string, error) {
+func Parse(data []byte) (map[string][]string, map[string][]string, error) {
 	buf := bytes.NewBuffer(data)
 	scanner := bufio.NewScanner(buf)
 
-	rv := make(map[string][]string)
+	// Parse the output to produce userFiles
+	userFiles := make(map[string][]string)
 	var p parser = parserStart
 	var err error
 	for p != nil {
-		p, err = p(scanner, rv)
+		p, err = p(scanner, userFiles)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 	}
 
-	return rv, nil
+	// Process the userFiles to create userDirectories (as of now directory
+	// output is not supported by upspin share)
+	userDirectories := make(map[string][]string)
+	for user, files := range userFiles {
+		for _, file := range files {
+			directory, filename := path.Split(file)
+			if filename == "Access" {
+				directories, ok := userDirectories[user]
+				if !ok {
+					directories = make([]string, 0)
+				}
+				directories = append(directories, directory)
+				userDirectories[user] = directories
+			}
+		}
+	}
+
+	return userFiles, userDirectories, nil
 }
 
 type parser func(scanner *bufio.Scanner, data map[string][]string) (parser, error)

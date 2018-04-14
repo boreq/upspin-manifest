@@ -58,7 +58,7 @@ func runRun(c guinea.Context) error {
 	if err != nil {
 		return err
 	}
-	userFiles, err := parser.Parse(shareData)
+	userFiles, userDirectories, err := parser.Parse(shareData)
 	if err != nil {
 		return err
 	}
@@ -66,7 +66,7 @@ func runRun(c guinea.Context) error {
 	// Build and write the file lists
 	log.Debug("Building...")
 	buil := builder.New(ups)
-	err = buil.Build(userFiles, man)
+	err = buil.Build(userFiles, userDirectories, man)
 	if err != nil {
 		return err
 	}
